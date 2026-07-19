@@ -20,16 +20,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # `brew style`/`brew audit` reject a bare file path outside a
+      # recognized tap directory ("Homebrew requires casks to be in a tap"),
+      # so tap this checkout first and reference the cask by its tapped name.
+      - name: Tap this checkout
+        run: brew tap platevault/tap "$GITHUB_WORKSPACE"
+
       - name: brew style
-        run: brew style --cask Casks/platevault.rb
+        run: brew style --cask platevault/tap/platevault
 
       - name: brew audit --cask
-        run: brew audit --cask --online Casks/platevault.rb
+        run: brew audit --cask --online platevault/tap/platevault
 
-      - name: Tap this checkout and install the cask
-        run: |
-          brew tap platevault/tap "$GITHUB_WORKSPACE"
-          brew install --cask platevault/tap/platevault
+      - name: Install the cask
+        run: brew install --cask platevault/tap/platevault
 
       - name: Assert the app bundle was installed
         run: |
