@@ -1,0 +1,40 @@
+name: Cask install test
+
+# Verifies the cask actually installs on macOS. Runs on every push/PR that
+# touches a cask file, and the auto-bump workflow in the main platevault repo
+# opens exactly that kind of PR after each release.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "Casks/**"
+  pull_request:
+    paths:
+      - "Casks/**"
+  workflow_dispatch: {}
+
+jobs:
+  install:
+    name: brew install --cask (macos-latest)
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: brew style
+        run: brew style --cask Casks/platevault.rb
+
+      - name: brew audit --cask
+        run: brew audit --cask --online Casks/platevault.rb
+
+      - name: Tap this checkout and install the cask
+        run: |
+          brew tap platevault/tap "$GITHUB_WORKSPACE"
+          brew install --cask platevault/tap/platevault
+
+      - name: Assert the app bundle was installed
+        run: |
+          test -d "/Applications/PlateVault.app"
+          test -f "/Applications/PlateVault.app/Contents/Info.plist"
+
+      - name: Uninstall (exercise the zap stanza)
+        run: brew uninstall --cask --zap platevault/tap/platevault
