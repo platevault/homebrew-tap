@@ -13,11 +13,10 @@ cask "platevault" do
   # against latest.json) — this cask's version is only what a *fresh*
   # `brew install` fetches; `brew upgrade` will not fight the in-app updater.
   auto_updates true
-
   # Apple Silicon only supports Big Sur+, and the release workflow's macOS
   # leg builds a single arm64 target with no cross-compile target — no Intel
   # build is published today.
-  depends_on macos: ">= :big_sur"
+  depends_on macos: :big_sur
   depends_on arch: :arm64
 
   app "PlateVault.app"
