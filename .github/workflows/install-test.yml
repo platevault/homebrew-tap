@@ -17,6 +17,11 @@ jobs:
   install:
     name: brew install --cask (macos-latest)
     runs-on: macos-latest
+    # `brew audit --online` calls the GitHub API unauthenticated by default
+    # and hits the 60 req/hr limit on the shared runner IP; this raises it to
+    # the authenticated 5,000 req/hr limit.
+    env:
+      HOMEBREW_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v4
 
