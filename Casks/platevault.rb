@@ -4,11 +4,6 @@ cask "platevault" do
   version "0.5.0"
   sha256 "0deb5dc85c5da9b1c7db62c0f3ad53e7a125dd63c863eb5ab792da40a15c5c37"
 
-  # macos-latest GitHub Actions runners are Apple Silicon; the release
-  # workflow builds a single macOS leg with no cross-compile target, so only
-  # an aarch64 .dmg is published today — no Intel build exists yet.
-  depends_on arch: :arm64
-
   url "https://github.com/platevault/platevault/releases/download/v#{version}/PlateVault_#{version}_#{arch}.dmg"
   name "PlateVault"
   desc "Local-first desktop app for organizing astrophotography libraries"
@@ -18,6 +13,12 @@ cask "platevault" do
   # against latest.json) — this cask's version is only what a *fresh*
   # `brew install` fetches; `brew upgrade` will not fight the in-app updater.
   auto_updates true
+
+  # Apple Silicon only supports Big Sur+, and the release workflow's macOS
+  # leg builds a single arm64 target with no cross-compile target — no Intel
+  # build is published today.
+  depends_on macos: ">= :big_sur"
+  depends_on arch: :arm64
 
   app "PlateVault.app"
 
