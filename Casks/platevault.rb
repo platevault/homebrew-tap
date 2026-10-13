@@ -1,8 +1,8 @@
 cask "platevault" do
   arch arm: "aarch64"
 
-  version "0.5.0"
-  sha256 "0deb5dc85c5da9b1c7db62c0f3ad53e7a125dd63c863eb5ab792da40a15c5c37"
+  version "0.6.1"
+  sha256 "08f53b2700261bc526fd43fc3916c38cf67aa2aeb38f308e73674e6f238bc291"
 
   url "https://github.com/platevault/platevault/releases/download/v#{version}/PlateVault_#{version}_#{arch}.dmg"
   name "PlateVault"
