@@ -7,14 +7,17 @@ app for organizing astrophotography libraries.
 ## Install
 
 ```bash
-brew tap platevault/tap
-brew install --cask platevault
+brew install --cask platevault/tap/platevault
 ```
 
+Use the fully qualified `platevault/tap/platevault` name: Homebrew 6 requires
+it to trust a third-party tap.
+
 Apple Silicon Macs only — no Intel build is published yet. The macOS build is
-ad-hoc signed but not notarized, so Gatekeeper will refuse to open the app on
-first launch; `brew install --cask` prints the workaround (also documented in
-the cask's `caveats`).
+ad-hoc signed but not notarized, so Gatekeeper blocks the app on first launch.
+Since macOS Sequoia, Control-click › Open no longer bypasses this: open the app
+once, then go to System Settings › Privacy & Security and click **Open Anyway**
+(also documented in the cask's `caveats`).
 
 ## Updating the cask
 

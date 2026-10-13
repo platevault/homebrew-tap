@@ -32,13 +32,16 @@ cask "platevault" do
 
   caveats <<~EOS
     PlateVault's macOS build is ad-hoc signed but not Apple-notarized (no
-    paid Apple Developer account yet — see the upstream repo's
-    docs/development/code-signing.md). On first launch, Gatekeeper will
-    refuse to open the app as "from an unidentified developer":
+    paid Apple Developer account yet; see the upstream repo's
+    docs/development/code-signing.md). On first launch, Gatekeeper blocks
+    the app. Since macOS Sequoia, Control-click -> Open no longer bypasses
+    this. Instead, try to open the app once, then go to
+    System Settings -> Privacy & Security and click "Open Anyway".
 
-      xattr -d com.apple.quarantine "#{appdir}/PlateVault.app"
+    Install with the fully qualified name so Homebrew trusts this tap:
 
-    or right-click the app in Finder -> Open -> confirm. Only Apple Silicon
-    Macs are supported; no Intel build is published yet.
+      brew install --cask platevault/tap/platevault
+
+    Only Apple Silicon Macs are supported; no Intel build is published yet.
   EOS
 end
